@@ -1,4 +1,6 @@
 # Catherine Silva
+"""Catherine's final integration project for COP1500"""
+
 # This program was created to randomly generate different workouts and useful
 # information regarding your time at the gym.
 # It will first create some randomly generated workouts depending on the string
@@ -17,8 +19,21 @@
 import random
 
 
-# Introduction to the user
+def good_input(msg):
+    """This Function makes sure the user can only input a whole integer"""
+    input_invalid = True
+    good_int = 0
+    while input_invalid:
+        try:
+            good_int = int(input(msg))
+            input_invalid = False
+        except ValueError:
+            print("Error. try inputting a whole number.")
+    return good_int
+
+
 def introduction():
+    """This function introduces the program to the user"""
     print("Hello there! I hope you're ready for your workout!")
     print("Here are some randomly generated workouts for you to try based "
           "on the muscle group you want to focus on.")
@@ -26,6 +41,7 @@ def introduction():
 
 
 def type_of_workout():
+    """This function contains the list of possible options for a workout"""
     bicep = ("Barbell bicep curl", "Cable hammer curls", "chin ups",
              "Close grip lat pull downs", "pull ups", "preacher curls",
              "decline curl")
@@ -36,10 +52,10 @@ def type_of_workout():
                                                         "press",
              "seated chest press")
     back = ("Barbell rows", "Cable rows", "Single arm dumbbell rows",
-            "Pull ups, Delt fly's", "Straight arm pulldowns", "Weighted "
-                                                              "hyper-extensions")
+            "Pull ups, Delt fly's", "Straight arm pulldowns",
+            "Weighted hyper-extensions")
 
-    workout_choice = input("what muscle group would you like to focus on? :")
+    workout_choice = input("\nwhat muscle group would you like to focus on? :")
     if workout_choice == "bicep":
         for x in range(3):
             bicep_workout = random.choice(bicep)
@@ -63,6 +79,7 @@ def type_of_workout():
 
 # Total calories burned
 def calories_burned(minutes_of_workout):
+    """This function calculates the total calories burned by user"""
     calories_burned_calculation = minutes_of_workout * 6.16
     return calories_burned_calculation
 
@@ -72,12 +89,12 @@ def calories_burned(minutes_of_workout):
 # of 135 pounds.
 
 
-# Calculation of how many more minutes are left of users workout
 def minutes_left_of_workout(minutes_of_workout):
+    """This function calculates the minutes left for users workout"""
     while minutes_of_workout < 90:
         minutes_left = 90 - minutes_of_workout
         print("You have", minutes_left, "minutes left of your workout",
-              sep=" ")
+              sep="  ")
         break
     while minutes_of_workout == 90:
         print("you have completed your daily workout goal! Congrats!")
@@ -93,13 +110,14 @@ def minutes_left_of_workout(minutes_of_workout):
 # In this case I just added an empty space between the string and the integer.
 
 
-# Calculating correct number of days needed for a sufficient workout schedule
 def num_of_workout_days():
-    num_of_days = int(input("\nHow many days of the week do you workout? : "))
+    """This function calculates the correct number of days needed for a
+    sufficient workout schedule"""
+    num_of_days = good_input("\nHow many days of the week do you workout? : ")
     days_input = num_of_days % 5
     # The modulus function is used to find the remainder of an integer.
-    # In this case, the remainder of the two integers that are being divided will
-    # yield how many more/less days the user has of their workout week.
+    # In this case, the remainder of the two integers that are being divided
+    # will yield how many more/less days the user has of their workout week.
     num_of_days_left = 5 - days_input
     # Integer subtraction between the number assigned to 5 and "days_Input".
     if num_of_days < 5:
@@ -116,13 +134,13 @@ def num_of_workout_days():
 # case, the print statements will only be shown if the if statement above
 # it is true.
 
-# Cardio Calculations of time per mile
 def cardio_calculations():
-    cardio_Miles = int(input("\n\nHow much did you run today? "
-                             "(distance in miles) : "))
-    cardio_Time = int(input("How long did you run for? (time in minutes) : "))
-    time_Per_Mile = cardio_Time / cardio_Miles
-    print("Your time per mile is ", time_Per_Mile, "min/mile")
+    """This function calculates the time per mile for the users run"""
+    cardio_miles = good_input("\n\nHow much did you run today? "
+                              "(distance in miles) : ")
+    cardio_time = good_input("How long did you run for? (time in minutes) : ")
+    time_per_mile = cardio_time / cardio_miles
+    print("Your time per mile is ", time_per_mile, "min/mile")
     print("keep up the good work!              " * 2)
 
 
@@ -132,9 +150,12 @@ def cardio_calculations():
 
 # protein Intake
 def protein_intake():
-    print("\nWhat a great workout you had! " + "Don't forget to eat the "
-          "necessary amount of protein to catalyze muscle growth.")
-    body_weight = int(input("What is your current body weight (lbs)?: "))
+    """This function calculates the protein intake needed based on body
+    weight"""
+    print(
+        "\nWhat a great workout you had! Don't forget to eat the necessary"
+        " amount of protein to catalyze muscle growth.")
+    body_weight = good_input("What is your current body weight (lbs)?: ")
     grams_protein = (.45 ** 2)
     initial_protein_intake = grams_protein * body_weight
     rounded_protein_intake = initial_protein_intake // 1
@@ -147,20 +168,25 @@ def protein_intake():
 
 
 def reflections():
+    """This function asks the user to reflect on the workout they completed"""
     reflection_answer = input("\n\nDid you have a good workout?: ")
     if reflection_answer == "yes":
         print("Great! Make sure to get some rest and crush your next workout!")
-    if reflection_answer != "yes":
+    elif reflection_answer == "no":
         print("That's okay, write down some ways you can try to push "
               "yourself next time and try again tomorrow!")
-
+    else:
+        print("Error, please try answering with 'yes' or 'no'")
+        reflections()
 
 
 def main():
+    """This function puts all previous functions together allowing the
+    program to run"""
     introduction()
     type_of_workout()
-    minutes_of_workout = int(input("\nHow many minutes have you worked out "
-                                   "so far? : "))
+    minutes_of_workout = good_input("\nHow many minutes have you worked out "
+                                    "so far? : ")
     calories_calculation = calories_burned(minutes_of_workout)
     print("you've burned", calories_calculation,
           "calories so far! keep up the good work!")
@@ -171,7 +197,7 @@ def main():
     reflections()
 
 
-############## Call To Main ###############
+# Call To Main
 main()
 
 # Citation:
